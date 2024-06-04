@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using PickAndMixECommerce.Data;
+using PickAndMixECommerce.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+builder.Services.AddScoped<ISweetsService, SweetsService>();
+builder.Services.AddScoped<IBrandsService, BrandsService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

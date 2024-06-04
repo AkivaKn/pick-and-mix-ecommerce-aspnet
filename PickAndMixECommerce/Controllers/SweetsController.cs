@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PickAndMixECommerce.Data;
+using PickAndMixECommerce.Data.Services;
 
 namespace PickAndMixECommerce.Controllers
 {
     public class SweetsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly ISweetsService _service;
 
-        public SweetsController(AppDbContext context)
+        public SweetsController(ISweetsService service)
         {
-            _context = context;
+            _service = service;
         }
         public async Task<IActionResult> Index()
         {
-            var sweetsData = await _context.Sweets.ToListAsync();
+            var sweetsData = await _service.GetAll();
             return View(sweetsData);
         }
     }
