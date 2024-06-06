@@ -14,10 +14,17 @@ namespace PickAndMixECommerce.Controllers
         {
             _service = service;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            var sweetsData = await _service.GetAll();
+            ViewData["CurrentFilter"] = searchString;
+            var sweetsData = await _service.GetAllAsync(sortOrder, searchString);
             return View(sweetsData);
+        }
+        public async Task<IActionResult> Details(int id)
+        {
+            var sweetDetails = await _service.GetByIdAsync(id);
+            if(sweetDetails == null) { return View("NotFound"); }
+            return View(sweetDetails);
         }
         public IActionResult Create() {
             return View();

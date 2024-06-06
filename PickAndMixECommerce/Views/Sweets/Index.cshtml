@@ -3,6 +3,25 @@
 @{
     ViewData["Title"] = "Sweets";
 }
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort
+</a>
+
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <a class="dropdown-item" asp-page="/Index" asp-route-sortOrder="name_asc">Name ascending</a>
+    <a class="dropdown-item" asp-page="/Index" asp-route-sortOrder="name_desc">Name descending</a>    
+    <a class="dropdown-item" asp-page="/Index" asp-route-sortOrder="price">Price ascending</a>
+    <a class="dropdown-item" asp-page="/Index" asp-route-sortOrder="price_desc">Price descending</a>
+</div>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 <div class="row">
     @foreach(var item in Model)
     {
@@ -10,9 +29,10 @@
             <div class="card" style="max-width: 540px;">
                 <img class="card-img-top" src="@item.ImageURL" alt="Item">
                 <div class="card-body">
-                    <p class="card-text">@item.Brand.BrandName</p>
+                    <p class="card-text"></p>
                     <h5 class="card-title">@item.SweetName</h5>
                     <a class="btn btn-success"><i class="bi bi-cart-plus"></i> @((item.PriceInPence / 100d).ToString("c"))</a>
+                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="bi bi-eye"></i>Details </a>
                 </div>
             </div>
         </div>
