@@ -23,33 +23,57 @@ namespace PickAndMixECommerce.Migrations
 
             modelBuilder.Entity("PickAndMixECommerce.Models.Brand", b =>
                 {
-                    b.Property<int>("BrandId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BrandId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("BrandName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BrandId");
+                    b.HasKey("Id");
 
                     b.ToTable("Brands");
                 });
 
-            modelBuilder.Entity("PickAndMixECommerce.Models.Sweet", b =>
+            modelBuilder.Entity("PickAndMixECommerce.Models.Category", b =>
                 {
-                    b.Property<int>("SweetId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SweetId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CategoryImageURL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("PickAndMixECommerce.Models.Sweet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ImageUrl")
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -63,9 +87,11 @@ namespace PickAndMixECommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SweetId");
+                    b.HasKey("Id");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Sweets");
                 });
@@ -73,12 +99,30 @@ namespace PickAndMixECommerce.Migrations
             modelBuilder.Entity("PickAndMixECommerce.Models.Sweet", b =>
                 {
                     b.HasOne("PickAndMixECommerce.Models.Brand", "Brand")
-                        .WithMany()
+                        .WithMany("Sweets")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PickAndMixECommerce.Models.Category", "Category")
+                        .WithMany("Sweets")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Brand");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("PickAndMixECommerce.Models.Brand", b =>
+                {
+                    b.Navigation("Sweets");
+                });
+
+            modelBuilder.Entity("PickAndMixECommerce.Models.Category", b =>
+                {
+                    b.Navigation("Sweets");
                 });
 #pragma warning restore 612, 618
         }

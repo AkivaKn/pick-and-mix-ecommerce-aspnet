@@ -2,12 +2,12 @@
 
 namespace PickAndMixECommerce.Models
 {
-    public class Brand
+    public class Category
     {
         [Key]
         public int Id { get; set; }
-        public string BrandName { get; set; }
+        public string CategoryName { get; set; }
+        public string CategoryImageURL { get; set; }
         public List<Sweet> Sweets { get; set; }
-
     }
 }

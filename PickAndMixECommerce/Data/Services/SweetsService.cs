@@ -13,7 +13,7 @@ namespace PickAndMixECommerce.Data.Services
         }
         public void Add(Sweet sweet)
         {
-            throw new NotImplementedException();
+            _context.Sweets.Add(sweet);
         }
 
         public void Delete(int id)
@@ -23,7 +23,7 @@ namespace PickAndMixECommerce.Data.Services
 
         public async Task<IEnumerable<Sweet>> GetAll()
         {
-            var result = await _context.Sweets.ToListAsync();
+            var result = await _context.Sweets.Include(b => b.Brand).AsNoTracking().ToListAsync();
             return result;
         }
 

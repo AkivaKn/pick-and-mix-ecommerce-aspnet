@@ -10,5 +10,6 @@ namespace PickAndMixECommerce.Data
         }
        public DbSet<Sweet> Sweets { get; set; }
        public DbSet<Brand> Brands { get; set; }
+       public DbSet<Category> Categories { get; set; }
     }
 }
